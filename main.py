@@ -1,73 +1,81 @@
 import tkinter as tk
 from datetime import datetime
 
-root = tk.Tk()
-root.title("Digital Clock")
+hourString = ""
+preWord = ""
+preposition = ""
+timeNow = ""
+hourInt = 0
+intMinute = 0
 
 def clock():
     timeNow = datetime.now()
     tString =  ("%s:%s" % (timeNow.hour, timeNow.minute))
-    print(timeNow.hour)
-    w.config(text = tString, )
-    root.after(1000, clock)
+    hourInt = timeNow.hour
+    intMinute = timeNow.minute
+    return hourInt, intMinute
 
-    return timeNow
-
-def fetchHour(timeNow):
-    hourString = ""
-    if timeNow.hour == "00" or timeNow == "12":
+def fetchHour(hourInt):
+    if hourInt == 0 or hourInt == 12:
         hourString = "Twelve"
-    elif timeNow.hour == "01" or timeNow == "13":
+    elif hourInt == 1 or hourInt == 13:
         hourString = "One"
-    elif timeNow.hour == "02" or timeNow == "14":
+    elif hourInt == 2 or hourInt == 14:
         hourString = "Two"
-    elif timeNow.hour == "03" or timeNow == "15":
+    elif hourInt == 3 or hourInt == 15:
         hourString = "Three"
-    elif timeNow.hour == "04" or timeNow == "16":
+    elif hourInt == 4 or hourInt == 16:
         hourString = "Four"
-    elif timeNow.hour == "05" or timeNow == "17":
+    elif hourInt == 5 or hourInt == 17:
         hourString = "Five"
-    elif timeNow.hour == "06" or timeNow == "18":
+    elif hourInt == 6 or hourInt == 18:
         hourString = "Six"
-    elif timeNow.hour == "07" or timeNow == "19":
+    elif hourInt == 7 or hourInt == 19:
         hourString = "Seven"
-    elif timeNow.hour == "08" or timeNow == "20":
+    elif hourInt == 8 or hourInt == 20:
         hourString = "Eight"
-    elif timeNow.hour == "09" or timeNow == "21":
+    elif hourInt == 9 or hourInt == 21:
         hourString = "Nine"
-    elif timeNow.hour == "10" or timeNow == "22":
+    elif hourInt == 10 or hourInt == 22:
         hourString = "Ten"
-    elif timeNow.hour == "11" or timeNow == "23":
+    elif hourInt == 11 or hourInt == 23:
         hourString = "Eleven"
 
     return hourString
 
-def fetchMinute(timeNow, hourString):
+def fetchMinute(intMinute):
     #set minute value to a multiple of 5
-    intMinute = int(timeNow.minute)
     intMinute = intMinute/5
     intMinute = round(intMinute)
     intMinute = intMinute*5
-    strMinute = ""
-    convTime = ""
-    if intMinute <= 30:
-        if intMinute == 0:
-            convTime = hourString
-            return convTime
-        if intMinute == 5:
-            convTime = "Five Past " + hourString
-        if intMinute == 10:
-            convTime = "Ten Past " + hourString
-        if intMinute == 15:
-            convTime = "Quarter Past " + hourString
-        if intMinute == 20:
-            convTime = "Twenty Past " + hourString
-        if intMinute == 25:
-            convTime = "Twenty Five Past " + hourString
-        if intMinute == 30:
-            convTime = "Half Past " + hourString
 
-w = tk.Label(font = (100))
-w.pack()
-clock()
-root.mainloop()
+    if intMinute == 0:
+        preWord = hourString
+    if intMinute == 5 or intMinute == 55:
+        preWord = "Five"
+    if intMinute == 10 or intMinute == 50:
+        preWord = "Ten"
+    if intMinute == 15 or intMinute == 45:
+        preWord = "Quarter"
+    if intMinute == 20 or intMinute == 40:
+        preWord = "Twenty"
+    if intMinute == 25 or intMinute == 35:
+        preWord = "Twenty Five"
+    if intMinute == 30:
+        preWord = "Half"
+
+    return preWord
+
+
+clockVal = clock()
+if clockVal[1] > 30:
+    hourString = fetchHour(clockVal[0] + 1)
+else:
+    hourString = fetchHour(clockVal[0])
+preWord = fetchMinute(clockVal[1])
+# set the preposition
+if clockVal[1] <= 30:
+    preposition = " Past "
+elif clockVal[1] > 30:
+    preposition = " To "
+print(preWord + preposition + hourString)
