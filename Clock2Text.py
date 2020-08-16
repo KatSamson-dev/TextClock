@@ -1,4 +1,3 @@
-import tkinter as tk
 from datetime import datetime
 
 hourString = ""
@@ -8,7 +7,7 @@ timeNow = ""
 hourInt = 0
 intMinute = 0
 
-def clock():
+def fetchTime():
     timeNow = datetime.now()
     tString =  ("%s:%s" % (timeNow.hour, timeNow.minute))
     hourInt = timeNow.hour
@@ -67,15 +66,6 @@ def fetchMinute(intMinute):
     return preWord
 
 
-clockVal = clock()
-if clockVal[1] > 30:
-    hourString = fetchHour(clockVal[0] + 1)
-else:
-    hourString = fetchHour(clockVal[0])
-preWord = fetchMinute(clockVal[1])
-# set the preposition
-if clockVal[1] <= 30:
-    preposition = " Past "
-elif clockVal[1] > 30:
-    preposition = " To "
+
+
 print(preWord + preposition + hourString)
